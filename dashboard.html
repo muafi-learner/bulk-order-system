@@ -15,8 +15,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#00263F', ivory: '#EEEBE1', taupe: '#908371', 
-                        secondary: '#3C586D', coolGrey: '#C0C9CE', muted: '#B8AD98', lightBeige: '#D6CFBF'
+                        primary: '#11263d',      // Updated exact hex
+                        ivory: '#EEEBE1', 
+                        taupe: '#938370',        // Updated exact hex
+                        secondary: '#3C586D', 
+                        coolGrey: '#C0C9CE', 
+                        muted: '#B8AD98', 
+                        lightBeige: '#D6CFBF'
                     },
                     fontFamily: { 
                         sans: ['Poppins', 'sans-serif'],
@@ -90,7 +95,7 @@
     let knownOrdersCount = 0; 
     let audioContext = null;
     let pendingAction = null;
-    let currentStoreFilter = 'ALL'; // 'ALL', 'MALANG - GALUNGGUNG', atau 'KEDIRI - ERLANGGA'
+    let currentStoreFilter = 'ALL'; 
 
     function enableAudio(element) {
         if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -112,7 +117,6 @@
         oscillator.stop(audioContext.currentTime + 0.4);
     }
 
-    // Ubah filter store secara dinamis
     function changeStoreFilter(storeName) {
         currentStoreFilter = storeName;
         updateFilterButtonsUI();
@@ -154,7 +158,6 @@
             });
             const rawData = await response.json();
 
-            // Mapping kolom dari Google Sheet (Lokasi Store menggantikan Bukti URL)
             const orders = rawData.map(item => ({
                 id: item['ID Pesanan'],
                 timestamp: item['Waktu'],
@@ -168,7 +171,6 @@
                 status: item['Status']
             }));
 
-            // Filter berdasarkan store yang dipilih di dashboard
             let filteredOrders = orders;
             if (currentStoreFilter !== 'ALL') {
                 filteredOrders = orders.filter(o => {
@@ -179,7 +181,6 @@
             const reversedOrders = filteredOrders.reverse();
             renderOrders(reversedOrders);
 
-            // Suara ding jika ada pesanan baru masuk khusus store yang sedang dilihat
             if (knownOrdersCount !== 0 && filteredOrders.length > knownOrdersCount) playDing(); 
             knownOrdersCount = filteredOrders.length;
 
@@ -321,7 +322,6 @@
             if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
         }, { once: true });
 
-        // Cek apakah ada parameter ?store= di URL browser
         const urlParams = new URLSearchParams(window.location.search);
         const storeQuery = urlParams.get('store');
 
