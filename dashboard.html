@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,13 +15,13 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#11263d',      // Sesuai revisi terbaru
-                        ivory: '#EEEBE1', 
-                        taupe: '#938370',        // Sesuai revisi terbaru
-                        secondary: '#3C586D', 
-                        coolGrey: '#C0C9CE', 
+                        primary: '#11263d',      
+                        ivory: '#F9F8F6',        // Diperterang agar lebih clean/putih
+                        taupe: '#938370',        
+                        secondary: '#4A5C6A',    // Dibuat lebih soft
+                        coolGrey: '#A0ABBA', 
                         muted: '#B8AD98', 
-                        lightBeige: '#D6CFBF'
+                        lightBeige: '#E5E1D8'    // Border lebih soft
                     },
                     fontFamily: { 
                         sans: ['Poppins', 'sans-serif'],
@@ -32,33 +32,33 @@
         }
     </script>
 </head>
-<body class="bg-ivory text-primary font-sans min-h-screen flex flex-col">
+<body class="bg-primary text-ivory font-sans min-h-screen flex flex-col">
 
     <!-- =========================================
          1. LAYAR LOGIN / PILIH STORE
     ========================================== -->
-    <div id="loginScreen" class="fixed inset-0 z-50 bg-ivory flex items-center justify-center p-5 transition-opacity duration-500">
-        <div class="bg-primary rounded-[28px] shadow-2xl w-full max-w-sm p-8 text-center border border-secondary/30 relative overflow-hidden">
+    <div id="loginScreen" class="fixed inset-0 z-50 bg-primary flex items-center justify-center p-5 transition-opacity duration-500">
+        <div class="bg-white rounded-3xl shadow-xl w-full max-w-sm p-8 text-center border border-lightBeige relative overflow-hidden">
 
             <div class="relative z-10">
-                <h2 class="font-poppins font-black text-2xl text-ivory tracking-wider uppercase mb">KINTOUN</h2>
-                <p class="font-poppins font-regular text-sm text-ivory/80 mb-10 tracking-wide">Bulk Order System</p>
+                <h2 class="font-poppins font-extrabold text-3xl text-primary tracking-wider uppercase mb">KINTOUN</h2>
+                <p class="font-poppins text-m text-secondary mb-16 tracking-wide">Bulk Order System</p>
 
                 <div class="text-left mb-6">
-                    <label class="block text-xs font-semibold text-ivory/70 mb-2 ml-1"></label>
+                    <label class="block text-xs font-semibold text-secondary mb-2 ml-1"></label>
                     <div class="relative">
-                        <select id="storeSelector" class="w-full bg-secondary/30 border-2 border-secondary/50 text-ivory text-sm font-medium rounded-xl py-3.5 px-4 outline-none focus:border-lightBeige appearance-none cursor-pointer transition">
-                            <option value="" disabled selected hidden>Pilih Lokasi Store...</option>
-                            <option value="MALANG - GALUNGGUNG" class="text-primary bg-white">Malang - Galunggung</option>
-                            <option value="KEDIRI - ERLANGGA" class="text-primary bg-white">Kediri - Erlangga</option>
+                        <select id="storeSelector" class="w-full bg-[#F9F8F6] border border-lightBeige text-primary text-sm font-semibold rounded-xl py-3.5 px-4 outline-none focus:border-taupe appearance-none cursor-pointer transition">
+                            <option value="" disabled selected hidden>Pilih Lokasi Outlet...</option>
+                            <option value="MALANG - GALUNGGUNG">Malang - Galunggung</option>
+                            <option value="KEDIRI - ERLANGGA">Kediri - Erlangga</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-ivory/70">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-secondary">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </div>
                 </div>
 
-                <button onclick="enterDashboard()" class="w-full bg-ivory text-primary font-bold py-3.5 rounded-xl hover:bg-lightBeige transition shadow-lg outline-none">
+                <button onclick="enterDashboard()" class="w-full bg-primary text-white font-semibold py-3.5 rounded-xl hover:opacity-90 transition shadow-md outline-none">
                     Masuk Dashboard
                 </button>
             </div>
@@ -70,56 +70,53 @@
     ========================================== -->
     <div id="mainDashboard" class="hidden flex-col min-h-screen">
         
-        <!-- Header Mepet Atas (Tanpa margin, tanpa rounded) -->
-        <header class="bg-primary text-ivory px-4 py-3.5 shadow-md flex justify-between items-center sticky top-0 z-20 w-full">
-            <div class="flex items-center space-x-3 md:space-x-4">
-                <!-- Tombol Back Kiri Atas -->
-                <button onclick="exitDashboard()" class="p-2 bg-secondary/40 hover:bg-secondary rounded-lg transition flex items-center justify-center text-ivory shadow-sm outline-none" title="Kembali ke Login Store">
+        <!-- Header Clean & Minimalis -->
+        <header class="bg-white border-b border-lightBeige px-5 py-4 flex justify-between items-center sticky top-0 z-20 w-full shadow-sm">
+            <div class="flex items-center space-x-4">
+                <button onclick="exitDashboard()" class="p-2 bg-[#F9F8F6] hover:bg-lightBeige rounded-lg transition flex items-center justify-center text-secondary outline-none" title="Kembali">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
                 <div>
-                    <!-- Judul Dinamis -->
-                    <h1 id="dashboardTitle" class="text-base md:text-lg font-bold tracking-tight leading-tight uppercase">POS - KINTOUN</h1>
-                    <p class="text-ivory/70 text-[10px] md:text-xs font-medium tracking-wide mt-0.5">Bulk Order System Dashboard</p>
+                    <h1 id="dashboardTitle" class="text-base font-bold text-primary tracking-tight uppercase">POS KINTOUN</h1>
+                    <p class="text-secondary text-[11px] font-medium tracking-wide mt-0.5">Bulk Order Dashboard</p>
                 </div>
             </div>
             
-            <div class="flex items-center space-x-2.5 md:space-x-4">
-                <span id="statusConnection" class="text-[10px] md:text-xs font-bold tracking-wider uppercase bg-green-500 text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm">Online</span>
-                <button onclick="fetchOrders()" class="bg-secondary/50 hover:bg-taupe text-ivory px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[11px] md:text-xs font-bold transition shadow-sm outline-none">
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <div class="flex items-center space-x-1.5">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span id="statusConnection" class="text-[11px] font-bold text-green-600 uppercase tracking-wider hidden md:inline-block">Online</span>
+                </div>
+                <button onclick="fetchOrders()" class="bg-[#F9F8F6] border border-lightBeige hover:bg-lightBeige text-primary px-4 py-2 rounded-lg text-xs font-semibold transition outline-none">
                     Refresh
                 </button>
             </div>
         </header>
 
-        <main class="flex-grow px-4 md:px-8 pt-6 pb-10">
-            <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <main class="flex-grow px-4 md:px-8 pt-8 pb-10">
+            <!-- Grid dengan gap yang lega -->
+            <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <!-- Data Pesanan Muncul Di Sini -->
             </div>
         </main>
     </div>
 
     <!-- LOADING OVERLAY -->
-    <div id="loadingOverlay" class="fixed inset-0 bg-primary bg-opacity-80 backdrop-blur-sm hidden flex-col justify-center items-center z-[60]">
-        <div class="w-12 h-12 border-4 border-ivory border-t-taupe rounded-full animate-spin mb-4"></div>
-        <p class="font-bold text-ivory tracking-wide">Memperbarui Status...</p>
+    <div id="loadingOverlay" class="fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm hidden flex-col justify-center items-center z-[60]">
+        <div class="w-10 h-10 border-4 border-lightBeige border-t-primary rounded-full animate-spin mb-4"></div>
+        <p class="font-semibold text-primary text-sm tracking-wide">Memperbarui...</p>
     </div>
 
     <!-- KONFIRMASI STATUS MODAL -->
-    <div id="customConfirmModal" class="fixed inset-0 bg-primary bg-opacity-70 backdrop-blur-sm hidden flex-col justify-center items-center z-[70] px-4 transition-opacity">
-        <div class="bg-white rounded-2xl shadow-xl border border-lightBeige w-full max-w-sm overflow-hidden transform transition-all">
+    <div id="customConfirmModal" class="fixed inset-0 bg-primary bg-opacity-40 backdrop-blur-sm hidden flex-col justify-center items-center z-[70] px-4 transition-opacity">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden transform transition-all">
             <div class="p-6">
-                <div class="flex items-center space-x-3 mb-4">
-                    <div class="bg-secondary bg-opacity-10 p-2 rounded-full text-secondary">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-primary">Konfirmasi Status</h3>
-                </div>
-                <p id="confirmMessage" class="text-secondary text-sm font-medium leading-relaxed"></p>
+                <h3 class="text-lg font-bold text-primary mb-2">Konfirmasi Status</h3>
+                <p id="confirmMessage" class="text-secondary text-sm leading-relaxed"></p>
             </div>
-            <div class="bg-ivory px-6 py-4 flex justify-end space-x-3 border-t border-lightBeige">
-                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-bold text-taupe hover:bg-lightBeige transition outline-none">Batal</button>
-                <button id="btnConfirmAction" class="px-4 py-2 rounded-xl text-sm font-bold bg-primary text-ivory hover:bg-secondary transition shadow-md outline-none">Ya, Ubah Status</button>
+            <div class="bg-[#F9F8F6] px-6 py-4 flex justify-end space-x-3 border-t border-lightBeige">
+                <button onclick="closeConfirmModal()" class="px-4 py-2.5 rounded-xl text-sm font-semibold text-secondary hover:bg-lightBeige transition outline-none">Batal</button>
+                <button id="btnConfirmAction" class="px-5 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:opacity-90 transition shadow-sm outline-none">Ya, Ubah Status</button>
             </div>
         </div>
     </div>
@@ -133,7 +130,6 @@
     let currentStoreFilter = ''; 
     let fetchInterval = null;
 
-    // FUNGSI MASUK DASHBOARD (DARI LAYAR LOGIN)
     function enterDashboard() {
         const selector = document.getElementById('storeSelector');
         if (!selector.value) {
@@ -142,33 +138,25 @@
         }
 
         currentStoreFilter = selector.value;
-        
-        // Ubah Judul Header Dinamis
-        document.getElementById('dashboardTitle').innerText = `POS ${currentStoreFilter}`;
+        document.getElementById('dashboardTitle').innerText = `${currentStoreFilter}`;
 
-        // Transisi Layar
         document.getElementById('loginScreen').classList.add('opacity-0', 'pointer-events-none');
         setTimeout(() => {
             document.getElementById('loginScreen').classList.add('hidden');
             document.getElementById('mainDashboard').classList.remove('hidden');
             document.getElementById('mainDashboard').classList.add('flex');
             
-            // Mulai Tarik Data
             fetchOrders();
             fetchInterval = setInterval(fetchOrders, 10000); 
         }, 300);
     }
 
-    // FUNGSI KELUAR DASHBOARD (TOMBOL BACK)
     function exitDashboard() {
         clearInterval(fetchInterval);
         currentStoreFilter = '';
         document.getElementById('storeSelector').value = '';
-        
-        // Kosongkan Container agar tidak bocor
         document.getElementById('ordersContainer').innerHTML = '';
 
-        // Transisi Layar Kembali
         document.getElementById('mainDashboard').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('flex');
         
@@ -179,13 +167,9 @@
         }, 50);
     }
 
-    // FUNGSI TARIK DATA PESANAN
     async function fetchOrders() {
         if (!currentStoreFilter) return;
-
         const statusBadge = document.getElementById('statusConnection');
-        statusBadge.innerText = 'Syncing...';
-        statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-taupe text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
 
         try {
             const response = await fetch(N8N_GET_ORDERS_URL + '?t=' + new Date().getTime(), { 
@@ -206,7 +190,6 @@
                 status: item['Status']
             }));
 
-            // Filter ketat berdasarkan Store yang dipilih saat login
             const filteredOrders = orders.filter(o => {
                 return (o.store || '').toUpperCase() === currentStoreFilter.toUpperCase();
             });
@@ -215,14 +198,13 @@
             renderOrders(reversedOrders);
 
             statusBadge.innerText = 'Online';
-            statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-secondary text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
+            statusBadge.classList.replace('text-red-600', 'text-green-600');
         } catch (error) {
             statusBadge.innerText = 'Offline';
-            statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-red-800 text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
+            statusBadge.classList.replace('text-green-600', 'text-red-600');
         }
     }
 
-    // FUNGSI RENDER TAMPILAN PESANAN
     function renderOrders(orders) {
         const container = document.getElementById('ordersContainer');
         let activeOrdersCount = 0;
@@ -232,53 +214,72 @@
             if(order.status === 'Selesai') return; 
             activeOrdersCount++;
 
+            // Replace newline dengan <br> untuk list pesanan
             const orderListHtml = order.orders ? order.orders.replace(/\n/g, '<br>') : '';
-            let statusUI = order.status === 'Pesanan Masuk' ? 'bg-red-50 text-red-700 border-red-200' : 'bg-ivory text-secondary border-lightBeige';
-            let cardAccent = order.status === 'Pesanan Masuk' ? 'border-t-4 border-t-red-400' : 'border-t-4 border-t-secondary';
+            
+            // Badge Status Minimalis
+            let statusUI = order.status === 'Pesanan Masuk' 
+                ? 'bg-red-50 text-red-500 border-red-100' 
+                : 'bg-green-50 text-green-600 border-green-100';
             
             const safeId = order.id ? order.id.replace(/'/g, "\\'") : '';
             const safeWa = order.wa ? String(order.wa).replace(/'/g, "\\'") : '';
             const safeName = order.name ? order.name.replace(/'/g, "\\'") : '';
+            const safeStore = order.store ? order.store.replace(/'/g, "\\'") : 'MALANG - GALUNGGUNG'; 
 
             html += `
-            <div class="bg-white rounded-2xl shadow-sm border border-lightBeige flex flex-col ${cardAccent} overflow-hidden transition hover:shadow-md">
-                <div class="p-4 md:p-5 border-b border-lightBeige flex justify-between items-start">
+            <div class="bg-white rounded-2xl shadow-sm border border-[#EBE8E0] flex flex-col overflow-hidden">
+                
+                <!-- HEADER CARD -->
+                <div class="p-5 border-b border-[#F0EFEB] flex justify-between items-start bg-[#FDFDFC]">
                     <div>
-                        <span class="font-extrabold text-xs text-taupe tracking-wider">${order.id || '-'}</span>
-                        <p class="text-xs text-coolGrey font-medium mt-1">${order.timestamp || '-'}</p>
+                        <h4 class="font-bold text-sm text-taupe tracking-wider uppercase">${order.id || '-'}</h4>
+                        <p class="text-[11px] text-coolGrey mt-0.5">${order.timestamp || '-'}</p>
                     </div>
                     <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusUI}">${order.status || '-'}</span>
                 </div>
 
-                <div class="p-4 md:p-5 flex-grow">
-                    <h3 class="font-bold text-xl text-primary mb-1">${order.name || '-'}</h3>
-                    <p class="text-secondary text-sm font-medium mb-4 flex items-center">
-                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                        ${order.wa || '-'}
-                    </p>
-                    <div class="bg-ivory p-3 rounded-xl border border-lightBeige mb-4">
-                        <p class="font-bold text-[10px] text-taupe uppercase tracking-wider mb-1">Metode Pemesanan</p>
-                        <p class="text-primary text-sm font-medium leading-relaxed">${order.address || '-'}</p>
+                <!-- BODY CARD -->
+                <div class="p-5 md:p-6 flex-grow">
+                    
+                    <!-- Nama & No WA -->
+                    <div class="mb-5">
+                        <h3 class="font-bold text-xl text-primary mb-1">${order.name || '-'}</h3>
+                        <p class="text-secondary text-sm flex items-center">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            ${order.wa || '-'}
+                        </p>
                     </div>
-                    <div class="mb-4">
+
+                    <!-- Metode Pemesanan Block -->
+                    <div class="bg-[#F8F7F5] rounded-xl p-3.5 mb-5">
+                        <p class="font-bold text-[10px] text-taupe uppercase tracking-wider mb-0.5">Metode Pemesanan</p>
+                        <p class="text-primary text-sm font-semibold">${order.address || '-'}</p>
+                    </div>
+
+                    <!-- List Pesanan Block (Tanpa border kiri, Line-height longgar) -->
+                    <div class="mb-6">
                         <p class="font-bold text-[10px] text-taupe uppercase tracking-wider mb-2">Detail Pesanan</p>
-                        <p class="text-primary text-sm font-semibold leading-relaxed pl-2 border-l-2 border-secondary">${orderListHtml}</p>
+                        <p class="text-primary text-sm font-semibold leading-relaxed tracking-wide">${orderListHtml}</p>
                     </div>
-                    <div class="pt-2 border-t border-lightBeige/50 flex justify-between items-center text-xs">
-                        <span class="text-secondary font-medium">Total (${order.payment || 'QRIS'})</span>
-                        <span class="font-black text-sm text-primary">Rp ${(order.total || 0).toLocaleString('id-ID')}</span>
+                    
+                    <!-- Total Harga -->
+                    <div class="pt-4 border-t border-[#F0EFEB] flex justify-between items-center">
+                        <span class="text-secondary text-xs font-medium">Total (${order.payment || 'QRIS'})</span>
+                        <span class="font-bold text-lg text-primary">Rp ${(order.total || 0).toLocaleString('id-ID')}</span>
                     </div>
                 </div>
 
-                <div class="p-4 md:p-5 bg-white border-t border-lightBeige space-y-3">
-                    ${order.status === 'Pesanan Masuk' ? `<button onclick="updateStatus('${safeId}', 'Sedang Diproses', '${safeWa}', '${safeName}')" class="w-full bg-primary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-secondary transition shadow-md outline-none">Proses Pesanan</button>` : ''}
-                    ${order.status === 'Sedang Diproses' ? `<button onclick="updateStatus('${safeId}', 'Selesai', '${safeWa}', '${safeName}')" class="w-full bg-secondary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-primary transition shadow-md outline-none">Tandai Selesai & Kirim</button>` : ''}
+                <!-- ACTION BUTTON -->
+                <div class="px-5 pb-5 pt-0">
+                    ${order.status === 'Pesanan Masuk' ? `<button onclick="updateStatus('${safeId}', 'Sedang Diproses', '${safeWa}', '${safeName}', '${safeStore}')" class="w-full bg-primary text-white py-3 rounded-xl text-sm font-semibold hover:opacity-90 transition outline-none">Proses Pesanan</button>` : ''}
+                    ${order.status === 'Sedang Diproses' ? `<button onclick="updateStatus('${safeId}', 'Selesai', '${safeWa}', '${safeName}', '${safeStore}')" class="w-full bg-secondary text-white py-3 rounded-xl text-sm font-semibold hover:bg-primary transition outline-none">Tandai Selesai & Kirim</button>` : ''}
                 </div>
             </div>`;
         });
 
         if(activeOrdersCount === 0) {
-            container.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20"><p class="text-secondary font-medium">Belum ada pesanan aktif.</p></div>`;
+            container.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20"><p class="text-coolGrey font-medium text-sm">Belum ada pesanan aktif.</p></div>`;
         } else {
             container.innerHTML = html;
         }
@@ -290,26 +291,26 @@
         pendingAction = null;
     }
 
-    function updateStatus(orderId, newStatus, customerWA, customerName) {
+    function updateStatus(orderId, newStatus, customerWA, customerName, storeLocation) {
         const modal = document.getElementById('customConfirmModal');
         const message = document.getElementById('confirmMessage');
-        message.innerHTML = `Ubah status pesanan <span class="font-bold text-primary">${orderId}</span> menjadi <span class="font-bold text-primary">"${newStatus}"</span>?`;
+        message.innerHTML = `Ubah status pesanan <span class="font-semibold text-primary">${orderId}</span> menjadi <span class="font-semibold text-primary">"${newStatus}"</span>?`;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         
-        pendingAction = { orderId, newStatus, customerWA, customerName };
+        pendingAction = { orderId, newStatus, customerWA, customerName, storeLocation };
     }
 
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('btnConfirmAction').addEventListener('click', function() {
             if(pendingAction) {
-                executeStatusUpdate(pendingAction.orderId, pendingAction.newStatus, pendingAction.customerWA, pendingAction.customerName);
+                executeStatusUpdate(pendingAction.orderId, pendingAction.newStatus, pendingAction.customerWA, pendingAction.customerName, pendingAction.storeLocation);
             }
             closeConfirmModal();
         });
     });
 
-    async function executeStatusUpdate(orderId, newStatus, customerWA, customerName) {
+    async function executeStatusUpdate(orderId, newStatus, customerWA, customerName, storeLocation) {
         document.getElementById('loadingOverlay').classList.remove('hidden');
         document.getElementById('loadingOverlay').classList.add('flex');
 
@@ -322,7 +323,8 @@
                 orderId: String(orderId), 
                 status: String(newStatus), 
                 nomor_wa: formattedWA, 
-                nama: String(customerName)
+                nama: String(customerName),
+                store: String(storeLocation)
             };
 
             const response = await fetch(N8N_UPDATE_STATUS_URL, {
