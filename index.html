@@ -105,7 +105,7 @@
             <button onclick="openCartModal()" class="w-full bg-ivory text-primary font-bold py-4 rounded-xl shadow-lg flex justify-between items-center px-6 hover:bg-lightBeige transition">
                 <div class="flex flex-col text-left">
                     <span id="floatingTotalItems" class="text-xs text-secondary font-semibold">0 Item</span>
-                    <span id="floatingTotalPrice" class="text-lg font-black">Rp 0</span>
+                    <span id="floatingTotalPrice" class="text-lg font-bold">Rp 0</span>
                 </div>
                 <div class="flex items-center space-x-2">
                     <span>Lihat Keranjang</span>
@@ -119,8 +119,7 @@
         <div class="bg-ivory w-full max-w-md mx-auto h-[85vh] rounded-t-3xl shadow-2xl flex flex-col relative">
             <div class="px-6 py-5 border-b border-lightBeige flex justify-between items-center bg-white rounded-t-3xl">
                 <div>
-                    <h2 class="text-lg font-bold text-primary">Detail Pesanan</h2>
-                    <p id="modalStoreLabel" class="text-xs text-taupe font-semibold mt-0.5">-</p>
+                    <h2 class="text-lg font-semibold text-primary">Detail Pesanan</h2>
                 </div>
                 <button onclick="closeCartModal()" class="text-muted hover:text-primary font-bold p-2 text-lg">✕</button>
             </div>
@@ -131,8 +130,8 @@
 
             <div class="p-6 bg-white border-t border-lightBeige rounded-b-3xl">
                 <div class="flex justify-between items-center mb-4">
-                    <span class="font-bold text-secondary">Total Dibayar</span>
-                    <span id="modalTotalPrice" class="text-2xl font-bold text-primary">Rp 0</span>
+                    <span class="font-semibold text-secondary">Total Dibayar</span>
+                    <span id="modalTotalPrice" class="text-2xl font-semibold text-primary">Rp 0</span>
                 </div>
                 <button id="btnSubmitOrder" onclick="showQRISPopup()" class="w-full bg-primary text-ivory font-bold py-4 rounded-xl hover:bg-secondary transition disabled:opacity-50 disabled:cursor-not-allowed">
                     Konfirmasi Pesanan
@@ -351,7 +350,7 @@
 
     function selectStoreCard(id) {
         if (isFormLocked) {
-            showCustomAlert('Kakak sedang dalam mode pilih menu. Klik tombol "Kembali ke Data Diri" terlebih dahulu jika ingin merubah lokasi Store.');
+            showCustomAlert('Kakak sedang dalam mode pilih menu. Klik tombol "Kembali" terlebih dahulu jika ingin merubah lokasi Store.');
             return;
         }
 
@@ -459,21 +458,21 @@
         const container = document.getElementById('menuContainer');
         let html = `
         <div class="mt-6 mb-2">
-            <button onclick="backToForm()" class="text-ivory font-bold text-sm flex items-center hover:text-lightBeige transition outline-none">
+            <button onclick="backToForm()" class="text-ivory font-semibold text-sm flex items-center hover:text-lightBeige transition outline-none">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                Kembali ke Data Diri
+                Kembali
             </button>
         </div>`;
 
         menuData.forEach(cat => {
-            html += `<h3 class="text-xs font-bold text-lightBeige uppercase tracking-widest mt-7 mb-3">${cat.category}</h3>`;
+            html += `<h3 class="text-l font-semibold text-lightBeige uppercase tracking-widest mt-7 mb-3">${cat.category}</h3>`;
             html += `<div class="space-y-4">`;
             cat.items.forEach(item => {
                 html += `
                 <div class="bg-white p-3 sm:p-4 rounded-[20px] shadow-lg border border-transparent flex items-center space-x-3 sm:space-x-4 group">
                     <img src="${item.img}" alt="${item.name}" loading="lazy" class="w-20 sm:w-24 h-28 sm:h-32 object-contain flex-shrink-0 drop-shadow-sm">
                     <div class="flex-1 flex flex-col justify-center">
-                        <p class="font-extrabold text-primary text-[15px] sm:text-[16px] leading-tight">${item.name}</p>
+                        <p class="font-bold text-primary text-[15px] sm:text-[16px] leading-tight">${item.name}</p>
                         <p class="text-[13px] font-semibold text-secondary mt-1 mb-3">Rp ${item.price.toLocaleString('id-ID')}</p>
                         <div class="flex space-x-1.5 w-full">
                             <button id="chip_less_${item.id}" onclick="addToCart('${item.id}', '${item.name}', ${item.price}, 'Less Ice')" class="flex-1 text-[10px] sm:text-[11px] font-bold py-2 rounded-lg bg-ivory text-taupe border border-lightBeige hover:bg-lightBeige transition outline-none">Less Ice</button>
