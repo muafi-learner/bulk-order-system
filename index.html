@@ -41,18 +41,17 @@
 </head>
 <body class="bg-primary text-primary font-poppins min-h-screen">
 
-    <header class="w-full max-w-md mx-auto pt-10 pb-4 px-5 text-center relative z-10 flex flex-col items-center">
-        <div class="mb-2 text-white">
-            <svg class="w-12 h-12 mx-auto drop-shadow-md" viewBox="0 0 100 65" fill="currentColor">
-                <path d="M78 25 C75 11 62 1 47 1 C34 1 23 9 19 21 C8 23 0 32 0 43 C0 55 10 65 22 65 L78 65 C90 65 100 55 100 43 C100 32 90 23 78 25 Z" />
-            </svg>
+    <header class="w-full max-w-md mx-auto pt-10 px-5 text-center relative z-10 flex flex-col items-center">
+        
+        <!-- Logo SVG Baru (Z-20 agar posisi berada di atas cup) -->
+        <div class="relative z-20 w-[160px]">
+            <img src="https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/brand/kintoun-logo-bulk-order.svg" 
+                 alt="Kintoun Bulk Order Logo" 
+                 class="w-full h-auto">
         </div>
 
-        <h1 class="font-poppins font-[900] text-3xl text-white tracking-wider uppercase leading-none">KINTOUN</h1>
-        <p class="font-poppins font-medium text-xs text-white/90 tracking-wide mt-1">Bulk Order Web</p>
-
-        <!-- URL Gambar menggunakan raw.githubusercontent agar tampil normal -->
-        <div class="w-[calc(100%+2.5rem)] -mx-5 flex justify-center -mb-4 mt-4 pointer-events-none">
+        <!-- Mengubah -mb-4 menjadi mb-12 dan memperbesar tarikan -mt -->
+        <div class="relative z-10 w-[calc(100%+2.5rem)] -mx-5 flex justify-center mb-2 -mt-[160px] pointer-events-none">
             <img src="https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/brand/hero-cup-kintoun.png" 
                  alt="Kintoun Coffee Hero" 
                  class="w-full h-auto object-cover">
