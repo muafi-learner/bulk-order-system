@@ -65,17 +65,20 @@
                 </div>
 
                 <div>
-                    <input type="number" id="custWA" class="w-full bg-transparent border-b-[1.5px] border-lightBeige focus:border-primary py-2 outline-none transition placeholder-coolGrey text-primary text-sm font-medium disabled:opacity-50" placeholder="Nomor WhatsApp">
+                    <input type="tel" id="custWA" class="w-full bg-transparent border-b-[1.5px] border-lightBeige focus:border-primary py-2 outline-none transition placeholder-coolGrey text-primary text-sm font-medium disabled:opacity-50" placeholder="Nomor WhatsApp">
                 </div>
 
                 <div class="relative">
-                    <select id="pickUpMethod" required class="w-full bg-transparent border-b-[1.5px] border-lightBeige focus:border-primary py-2 outline-none transition text-primary text-sm font-medium appearance-none cursor-pointer disabled:opacity-50">
-                        <option value="" disabled selected hidden>Pilih Metode Pemesanan</option>
-                        <option value="Delivery By Pemesan" class="text-primary font-medium">Delivery By Pemesan</option>
-                        <option value="Self Pick-Up" class="text-primary font-medium">Self Pick-Up</option>
-                    </select>
+                    <input type="text" id="pickUpMethodDisplay" readonly class="w-full bg-transparent border-b-[1.5px] border-lightBeige focus:border-primary py-2 outline-none transition placeholder-coolGrey text-primary text-sm font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" placeholder="Pilih Metode Pemesanan" onclick="toggleMethodDropdown()">
+                    <input type="hidden" id="pickUpMethod" value="">
+                    
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-secondary">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+
+                    <div id="methodDropdown" class="hidden absolute top-[100%] left-0 w-full mt-1 bg-primary rounded-xl shadow-2xl z-50 flex-col px-5 pb-2 pt-1">
+                        <button type="button" onclick="selectMethod('Delivery By Pemesan')" class="w-full text-left text-ivory font-medium text-sm py-2.5 border-b-[1.5px] border-ivory/60 hover:text-lightBeige transition outline-none tracking-wide">Delivery By Pemesan</button>
+                        <button type="button" onclick="selectMethod('Self Pick-Up')" class="w-full text-left text-ivory font-medium text-sm py-2 border-ivory/60 hover:text-lightBeige transition outline-none tracking-wide">Self Pick-Up</button>
                     </div>
                 </div>
 
@@ -184,7 +187,7 @@
     </div>
 
 <script>
-    const N8N_CREATE_ORDER_URL = 'https://n8n-h238.srv1866922.hstgr.cloud/webhook/create-order-dev';
+    const N8N_CREATE_ORDER_URL = 'https://n8n-h238.srv1866922.hstgr.cloud/webhook-test/create-order-dev';
 
     const storeList = [
         {
@@ -214,6 +217,7 @@
     ];
 
     let selectedStore = null;
+    let isFormLocked = false; 
 
     const menuData = [
         { category: 'Kintoun Signature', items: [
@@ -233,6 +237,34 @@
     ];
 
     let cart = {}; 
+
+    function toggleMethodDropdown() {
+        if (isFormLocked) return;
+        const dropdown = document.getElementById('methodDropdown');
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+            dropdown.classList.add('flex');
+        } else {
+            dropdown.classList.add('hidden');
+            dropdown.classList.remove('flex');
+        }
+    }
+
+    function selectMethod(method) {
+        document.getElementById('pickUpMethod').value = method;
+        document.getElementById('pickUpMethodDisplay').value = method;
+        document.getElementById('pickUpMethodDisplay').classList.replace('text-primary', 'text-secondary'); 
+        toggleMethodDropdown();
+    }
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('methodDropdown');
+        const display = document.getElementById('pickUpMethodDisplay');
+        if (!dropdown.contains(event.target) && event.target !== display) {
+            dropdown.classList.add('hidden');
+            dropdown.classList.remove('flex');
+        }
+    });
 
     function renderStoreCards() {
         const container = document.getElementById('storeContainer');
@@ -318,6 +350,11 @@
     }
 
     function selectStoreCard(id) {
+        if (isFormLocked) {
+            showCustomAlert('Kakak sedang dalam mode pilih menu. Klik tombol "Kembali ke Data Diri" terlebih dahulu jika ingin merubah lokasi Store.');
+            return;
+        }
+
         if (selectedStore && selectedStore.id === id) {
             clearStoreSelection();
             return;
@@ -347,7 +384,7 @@
         document.getElementById('modalStoreLabel').innerText = `Store: ${selectedStore.name}`;
     }
 
-    const inputElements = ['custName', 'custWA', 'pickUpMethod'];
+    const inputElements = ['custName', 'custWA'];
     inputElements.forEach(id => {
         document.getElementById(id).addEventListener('focus', () => {
             setTimeout(() => {
@@ -392,8 +429,10 @@
 
         document.getElementById('custName').disabled = true;
         document.getElementById('custWA').disabled = true;
-        document.getElementById('pickUpMethod').disabled = true;
+        document.getElementById('pickUpMethodDisplay').disabled = true;
         document.getElementById('btnLanjutkan').classList.add('hidden');
+        
+        isFormLocked = true;
 
         const menuContainer = document.getElementById('menuContainer');
         menuContainer.classList.remove('hidden');
@@ -407,9 +446,12 @@
         document.getElementById('menuContainer').classList.add('hidden');
         document.getElementById('custName').disabled = false;
         document.getElementById('custWA').disabled = false;
-        document.getElementById('pickUpMethod').disabled = false;
+        document.getElementById('pickUpMethodDisplay').disabled = false;
         document.getElementById('btnLanjutkan').classList.remove('hidden');
         document.getElementById('floatingCart').classList.add('hidden');
+        
+        isFormLocked = false;
+        
         document.getElementById('formSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
@@ -458,23 +500,28 @@
                           iceLevel === 'No Ice' ? `chip_no_${id}` : `btn_add_${id}`;
         
         const targetBtn = document.getElementById(targetBtnId);
-        const originalText = targetBtn.innerText;
+        
+        const revertText = iceLevel === 'Less Ice' ? 'Less Ice' : 
+                           iceLevel === 'No Ice' ? 'No Ice' : 'Tambah';
+                           
         targetBtn.innerText = "✓ Masuk";
         
         if (iceLevel === 'Normal Ice') {
-            targetBtn.classList.replace('bg-primary', 'bg-taupe');
+            targetBtn.classList.remove('bg-primary');
+            targetBtn.classList.add('bg-taupe');
         } else {
-            targetBtn.classList.replace('bg-ivory', 'bg-taupe');
-            targetBtn.classList.replace('text-taupe', 'text-white');
+            targetBtn.classList.remove('bg-ivory', 'text-taupe');
+            targetBtn.classList.add('bg-taupe', 'text-white');
         }
 
         setTimeout(() => {
-            targetBtn.innerText = originalText;
+            targetBtn.innerText = revertText;
             if (iceLevel === 'Normal Ice') {
-                targetBtn.classList.replace('bg-taupe', 'bg-primary');
+                targetBtn.classList.remove('bg-taupe');
+                targetBtn.classList.add('bg-primary');
             } else {
-                targetBtn.classList.replace('bg-taupe', 'bg-ivory');
-                targetBtn.classList.replace('text-white', 'text-taupe');
+                targetBtn.classList.remove('bg-taupe', 'text-white');
+                targetBtn.classList.add('bg-ivory', 'text-taupe');
             }
         }, 600);
     }
