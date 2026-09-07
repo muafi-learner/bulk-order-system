@@ -335,7 +335,10 @@
 
     function clearStoreSelection() {
         selectedStore = null;
-        document.getElementById('modalStoreLabel').innerText = '-';
+        
+        // Penanganan error jika modalStoreLabel tidak ada di HTML
+        const modalLabel = document.getElementById('modalStoreLabel');
+        if (modalLabel) modalLabel.innerText = '-';
         
         storeList.forEach(s => {
             const card = document.getElementById(`card_store_${s.id}`);
@@ -346,6 +349,12 @@
             }
             if (badge) badge.classList.add('hidden');
         });
+
+        // Kembalikan posisi scroll ke paling awal (idle state)
+        const storeContainer = document.getElementById('storeContainer');
+        if (storeContainer) {
+            storeContainer.scrollTo({ left: 0, behavior: 'smooth' });
+        }
     }
 
     function selectStoreCard(id) {
@@ -354,6 +363,7 @@
             return;
         }
 
+        // Trigger uncheck jika mengklik card yang sedang aktif
         if (selectedStore && selectedStore.id === id) {
             clearStoreSelection();
             return;
@@ -380,7 +390,11 @@
         }
         if (activeBadge) activeBadge.classList.remove('hidden');
 
-        document.getElementById('modalStoreLabel').innerText = `Store: ${selectedStore.name}`;
+        // Penanganan error jika modalStoreLabel tidak ada di HTML
+        const modalLabel = document.getElementById('modalStoreLabel');
+        if (modalLabel) {
+            modalLabel.innerText = `Store: ${selectedStore.name}`;
+        }
     }
 
     const inputElements = ['custName', 'custWA'];
