@@ -80,10 +80,7 @@
                 </div>
 
                 <div class="pt-1 w-[calc(100%+3rem)] -mx-6">
-                    <div class="flex justify-between items-center mb-3 px-6">
-                        <label class="font-poppins font-medium text-coolGrey text-sm block">Pilih Lokasi Store</label>
-                        <button id="btnClearStore" onclick="clearStoreSelection()" class="hidden text-[10px] font-bold text-red-400 hover:text-red-600 transition outline-none tracking-wide">✕ Batal Pilih</button>
-                    </div>
+                    <label class="font-poppins font-medium text-coolGrey text-sm block mb-3 px-6">Pilih Lokasi Store</label>
                     <div class="flex items-start overflow-x-auto gap-4 pb-6 pt-2 px-[35%] snap-x snap-mandatory hide-scrollbar scroll-smooth" id="storeContainer">
                         <!-- Konten di-generate oleh JS -->
                     </div>
@@ -308,7 +305,6 @@
     function clearStoreSelection() {
         selectedStore = null;
         document.getElementById('modalStoreLabel').innerText = '-';
-        document.getElementById('btnClearStore').classList.add('hidden');
         
         storeList.forEach(s => {
             const card = document.getElementById(`card_store_${s.id}`);
@@ -349,7 +345,6 @@
         if (activeBadge) activeBadge.classList.remove('hidden');
 
         document.getElementById('modalStoreLabel').innerText = `Store: ${selectedStore.name}`;
-        document.getElementById('btnClearStore').classList.remove('hidden');
     }
 
     const inputElements = ['custName', 'custWA', 'pickUpMethod'];
