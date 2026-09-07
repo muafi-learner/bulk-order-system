@@ -80,8 +80,10 @@
                 </div>
 
                 <div class="pt-1 w-[calc(100%+3rem)] -mx-6">
-                    <label class="font-poppins font-medium text-coolGrey text-sm block mb-3 px-6">Pilih Lokasi Store</label>
-                    <!-- PERUBAHAN: Ditambahkan padding ekstensif (px-[35%]), snap-x, dan scroll-smooth agar bisa carousel sentris -->
+                    <div class="flex justify-between items-center mb-3 px-6">
+                        <label class="font-poppins font-medium text-coolGrey text-sm block">Pilih Lokasi Store</label>
+                        <button id="btnClearStore" onclick="clearStoreSelection()" class="hidden text-[10px] font-bold text-red-400 hover:text-red-600 transition outline-none tracking-wide">✕ Batal Pilih</button>
+                    </div>
                     <div class="flex items-start overflow-x-auto gap-4 pb-6 pt-2 px-[35%] snap-x snap-mandatory hide-scrollbar scroll-smooth" id="storeContainer">
                         <!-- Konten di-generate oleh JS -->
                     </div>
@@ -218,24 +220,23 @@
 
     const menuData = [
         { category: 'Kintoun Signature', items: [
-            { id: 'S1', name: 'Kopi Susu Kintoun', price: 15000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Kopi%20Susu%20Kintoun.png?raw=true' },
-            { id: 'S2', name: 'Sea Salt Butterscotch', price: 17000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Sea%20Salt%20Butterscotch.png?raw=true' },
-            { id: 'S3', name: 'Es Kopi Susu Tiramisu', price: 17000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Es%20Kopi%20Susu%20Tiramisu.png?raw=true' },
-            { id: 'S4', name: 'Double Shot Iced Shaken', price: 20000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Double%20Shoot%20Iced%20Shaken.png?raw=true' }
+            { id: 'S1', name: 'Kopi Susu Kintoun', price: 15000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/kopi-susu-kintoun.png' },
+            { id: 'S2', name: 'Sea Salt Butterscotch', price: 17000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/sea-salt-butterscotch.png' },
+            { id: 'S3', name: 'Es Kopi Susu Tiramisu', price: 17000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/es-kopi-susu-tiramisu.png' },
+            { id: 'S4', name: 'Double Shot Iced Shaken', price: 20000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/double-shoot-iced-shaken.png' }
         ]},
         { category: 'Kintoun Black Series', items: [
-            { id: 'B1', name: 'Americano Iced Black', price: 12000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Americano%20Iced%20Black.png?raw=true' },
-            { id: 'B2', name: 'Sunset Peach Americano', price: 17000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Sunset%20Peach%20Americano.png?raw=true' }
+            { id: 'B1', name: 'Americano Iced Black', price: 12000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/americano-iced-black.png' },
+            { id: 'B2', name: 'Sunset Peach Americano', price: 17000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/sunset-peach-americano.png' }
         ]},
         { category: 'Selain Kopi', items: [
-            { id: 'N1', name: 'Matcha Sea Salt', price: 17000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Matcha%20Sea%20Salt.png?raw=true' },
-            { id: 'N2', name: 'Choc-Cloud', price: 17000, img: 'https://github.com/muafi-learner/kintoun-delivery-and-self-pickup-order-system/blob/main/Choc-Cloud.png?raw=true' }
+            { id: 'N1', name: 'Matcha Sea Salt', price: 17000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/matcha-sea-salt.png' },
+            { id: 'N2', name: 'Choc-Cloud', price: 17000, img: 'https://raw.githubusercontent.com/muafi-learner/bulk-order-system/main/assets/menu/choc-cloud.png' }
         ]}
     ];
 
     let cart = {}; 
 
-    // RENDER HORIZONTAL STORE CARDS
     function renderStoreCards() {
         const container = document.getElementById('storeContainer');
         let html = '';
@@ -249,7 +250,6 @@
                 : `<div class="h-full w-[140px] bg-gradient-to-b from-gray-700 to-gray-900 flex items-center justify-center"></div>`;
 
             html += `
-            <!-- PERUBAHAN: Ditambahkan class 'store-card' dan 'snap-center' untuk logic carousel. Defaultnya diberi blur dan scale turun -->
             <div id="card_store_${store.id}" ${isClickable} class="store-card snap-center shrink-0 w-min h-[210px] rounded-[24px] overflow-hidden transition-all duration-300 border-2 border-transparent bg-taupe text-white flex flex-col relative p-1.5 opacity-50 blur-[1.5px] scale-90 ${cursorClass}">
                 
                 <div class="h-[120px] w-max bg-gray-200 rounded-[16px] overflow-hidden relative shrink-0">
@@ -268,13 +268,10 @@
 
         container.innerHTML = html;
         
-        // Memasang listener scroll setelah HTML selesai dirender
         container.addEventListener('scroll', updateCenterFocus);
-        // Memanggil fungsi pertama kali agar card paling awal langsung terang
         setTimeout(updateCenterFocus, 100);
     }
 
-    // FUNGSI BARU: Mengecek card mana yang ada di tengah container
     function updateCenterFocus() {
         const container = document.getElementById('storeContainer');
         if (!container) return;
@@ -286,7 +283,6 @@
         let closestCard = null;
         let minDistance = Infinity;
 
-        // Mencari card yang koordinat tengahnya paling dekat dengan tengah container
         cards.forEach(card => {
             const cardRect = card.getBoundingClientRect();
             const cardCenter = cardRect.left + cardRect.width / 2;
@@ -298,7 +294,6 @@
             }
         });
 
-        // Menambahkan dan membuang class visual (blur/scale)
         cards.forEach(card => {
             if (card === closestCard) {
                 card.classList.remove('opacity-50', 'blur-[1.5px]', 'scale-90');
@@ -310,7 +305,28 @@
         });
     }
 
+    function clearStoreSelection() {
+        selectedStore = null;
+        document.getElementById('modalStoreLabel').innerText = '-';
+        document.getElementById('btnClearStore').classList.add('hidden');
+        
+        storeList.forEach(s => {
+            const card = document.getElementById(`card_store_${s.id}`);
+            const badge = document.getElementById(`badge_selected_${s.id}`);
+            if (card) {
+                card.classList.remove('border-primary');
+                card.classList.add('border-transparent');
+            }
+            if (badge) badge.classList.add('hidden');
+        });
+    }
+
     function selectStoreCard(id) {
+        if (selectedStore && selectedStore.id === id) {
+            clearStoreSelection();
+            return;
+        }
+
         selectedStore = storeList.find(s => s.id === id);
 
         storeList.forEach(s => {
@@ -328,12 +344,12 @@
         if (activeCard) {
             activeCard.classList.remove('border-transparent');
             activeCard.classList.add('border-primary');
-            // PERUBAHAN: Otomatis menggeser layar agar card yang diklik pindah ke tengah
             activeCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
         if (activeBadge) activeBadge.classList.remove('hidden');
 
         document.getElementById('modalStoreLabel').innerText = `Store: ${selectedStore.name}`;
+        document.getElementById('btnClearStore').classList.remove('hidden');
     }
 
     const inputElements = ['custName', 'custWA', 'pickUpMethod'];
