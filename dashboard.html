@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,9 +15,9 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#11263d',      // Updated exact hex
+                        primary: '#11263d',      // Sesuai revisi terbaru
                         ivory: '#EEEBE1', 
-                        taupe: '#938370',        // Updated exact hex
+                        taupe: '#938370',        // Sesuai revisi terbaru
                         secondary: '#3C586D', 
                         coolGrey: '#C0C9CE', 
                         muted: '#B8AD98', 
@@ -32,44 +32,80 @@
         }
     </script>
 </head>
-<body class="bg-ivory text-primary font-sans min-h-screen flex flex-col" onload="initDashboard()">
+<body class="bg-ivory text-primary font-sans min-h-screen flex flex-col">
 
-    <header class="bg-primary text-ivory p-5 shadow-lg flex flex-col md:flex-row md:justify-between md:items-center sticky top-0 z-20 rounded-b-3xl mb-6 mx-2 md:mx-6 mt-2 gap-4">
-        <div>
-            <h1 class="text-xl font-bold tracking-tight">Kintoun Order System</h1>
-            <p id="dashboardStoreSubtitle" class="text-coolGrey text-xs font-medium mt-0.5">Memuat toko...</p>
+    <!-- =========================================
+         1. LAYAR LOGIN / PILIH STORE
+    ========================================== -->
+    <div id="loginScreen" class="fixed inset-0 z-50 bg-ivory flex items-center justify-center p-5 transition-opacity duration-500">
+        <div class="bg-primary rounded-[28px] shadow-2xl w-full max-w-sm p-8 text-center border border-secondary/30 relative overflow-hidden">
+
+            <div class="relative z-10">
+                <h2 class="font-poppins font-black text-2xl text-ivory tracking-wider uppercase mb">KINTOUN</h2>
+                <p class="font-poppins font-regular text-sm text-ivory/80 mb-10 tracking-wide">Bulk Order System</p>
+
+                <div class="text-left mb-6">
+                    <label class="block text-xs font-semibold text-ivory/70 mb-2 ml-1"></label>
+                    <div class="relative">
+                        <select id="storeSelector" class="w-full bg-secondary/30 border-2 border-secondary/50 text-ivory text-sm font-medium rounded-xl py-3.5 px-4 outline-none focus:border-lightBeige appearance-none cursor-pointer transition">
+                            <option value="" disabled selected hidden>Pilih Lokasi Store...</option>
+                            <option value="MALANG - GALUNGGUNG" class="text-primary bg-white">Malang - Galunggung</option>
+                            <option value="KEDIRI - ERLANGGA" class="text-primary bg-white">Kediri - Erlangga</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-ivory/70">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="enterDashboard()" class="w-full bg-ivory text-primary font-bold py-3.5 rounded-xl hover:bg-lightBeige transition shadow-lg outline-none">
+                    Masuk Dashboard
+                </button>
+            </div>
         </div>
-
-        <div class="flex items-center bg-secondary/50 p-1 rounded-xl self-start md:self-auto overflow-x-auto max-w-full" id="storeFilterBar">
-            <button onclick="changeStoreFilter('ALL')" id="btnFilter_ALL" class="px-3 py-1.5 rounded-lg text-xs font-bold transition text-ivory/70 hover:text-ivory">Semua</button>
-            <button onclick="changeStoreFilter('MALANG - GALUNGGUNG')" id="btnFilter_MALANG" class="px-3 py-1.5 rounded-lg text-xs font-bold transition text-ivory/70 hover:text-ivory">Malang</button>
-            <button onclick="changeStoreFilter('KEDIRI - ERLANGGA')" id="btnFilter_KEDIRI" class="px-3 py-1.5 rounded-lg text-xs font-bold transition text-ivory/70 hover:text-ivory">Kediri</button>
-        </div>
-
-        <div class="flex items-center space-x-3 self-end md:self-auto">
-            <span id="statusConnection" class="text-xs font-bold tracking-wider uppercase bg-green-500 text-white px-3 py-1.5 rounded-full shadow-sm">Online</span>
-            <button onclick="fetchOrders()" class="bg-secondary hover:bg-taupe text-ivory px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">
-                Refresh
-            </button>
-        </div>
-    </header>
-
-    <div id="audioNotice" class="mx-4 md:mx-8 mb-6 bg-white p-4 rounded-xl border border-lightBeige shadow-sm flex items-center justify-between cursor-pointer hover:bg-gray-50 transition" onclick="enableAudio(this)">
-        <p class="text-sm text-secondary font-medium"><span class="font-bold">🔔 Penting:</span> Klik kotak ini satu kali agar notifikasi suara pesanan baru bisa berbunyi di kasir.</p>
-        <span class="text-taupe font-bold text-xl">›</span>
     </div>
 
-    <main class="flex-grow px-4 md:px-8 pb-10">
-        <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <p class="text-taupe col-span-full text-center py-20 font-medium">Menyinkronkan data pesanan...</p>
-        </div>
-    </main>
+    <!-- =========================================
+         2. LAYAR DASHBOARD UTAMA
+    ========================================== -->
+    <div id="mainDashboard" class="hidden flex-col min-h-screen">
+        
+        <!-- Header Mepet Atas (Tanpa margin, tanpa rounded) -->
+        <header class="bg-primary text-ivory px-4 py-3.5 shadow-md flex justify-between items-center sticky top-0 z-20 w-full">
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <!-- Tombol Back Kiri Atas -->
+                <button onclick="exitDashboard()" class="p-2 bg-secondary/40 hover:bg-secondary rounded-lg transition flex items-center justify-center text-ivory shadow-sm outline-none" title="Kembali ke Login Store">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <div>
+                    <!-- Judul Dinamis -->
+                    <h1 id="dashboardTitle" class="text-base md:text-lg font-bold tracking-tight leading-tight uppercase">POS - KINTOUN</h1>
+                    <p class="text-ivory/70 text-[10px] md:text-xs font-medium tracking-wide mt-0.5">Bulk Order System Dashboard</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2.5 md:space-x-4">
+                <span id="statusConnection" class="text-[10px] md:text-xs font-bold tracking-wider uppercase bg-green-500 text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm">Online</span>
+                <button onclick="fetchOrders()" class="bg-secondary/50 hover:bg-taupe text-ivory px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[11px] md:text-xs font-bold transition shadow-sm outline-none">
+                    Refresh
+                </button>
+            </div>
+        </header>
 
+        <main class="flex-grow px-4 md:px-8 pt-6 pb-10">
+            <div id="ordersContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Data Pesanan Muncul Di Sini -->
+            </div>
+        </main>
+    </div>
+
+    <!-- LOADING OVERLAY -->
     <div id="loadingOverlay" class="fixed inset-0 bg-primary bg-opacity-80 backdrop-blur-sm hidden flex-col justify-center items-center z-[60]">
         <div class="w-12 h-12 border-4 border-ivory border-t-taupe rounded-full animate-spin mb-4"></div>
         <p class="font-bold text-ivory tracking-wide">Memperbarui Status...</p>
     </div>
 
+    <!-- KONFIRMASI STATUS MODAL -->
     <div id="customConfirmModal" class="fixed inset-0 bg-primary bg-opacity-70 backdrop-blur-sm hidden flex-col justify-center items-center z-[70] px-4 transition-opacity">
         <div class="bg-white rounded-2xl shadow-xl border border-lightBeige w-full max-w-sm overflow-hidden transform transition-all">
             <div class="p-6">
@@ -82,75 +118,74 @@
                 <p id="confirmMessage" class="text-secondary text-sm font-medium leading-relaxed"></p>
             </div>
             <div class="bg-ivory px-6 py-4 flex justify-end space-x-3 border-t border-lightBeige">
-                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-bold text-taupe hover:bg-lightBeige transition">Batal</button>
-                <button id="btnConfirmAction" class="px-4 py-2 rounded-xl text-sm font-bold bg-primary text-ivory hover:bg-secondary transition shadow-md">Ya, Ubah Status</button>
+                <button onclick="closeConfirmModal()" class="px-4 py-2 rounded-xl text-sm font-bold text-taupe hover:bg-lightBeige transition outline-none">Batal</button>
+                <button id="btnConfirmAction" class="px-4 py-2 rounded-xl text-sm font-bold bg-primary text-ivory hover:bg-secondary transition shadow-md outline-none">Ya, Ubah Status</button>
             </div>
         </div>
     </div>
 
 <script>
+    // URL Webhook sesuai script kamu sebelumnya
     const N8N_GET_ORDERS_URL = 'https://n8n-h238.srv1866922.hstgr.cloud/webhook-test/get-orders-dev'; 
     const N8N_UPDATE_STATUS_URL = 'https://n8n-h238.srv1866922.hstgr.cloud/webhook-test/pesanan-diproses-kak-dev';
 
-    let knownOrdersCount = 0; 
-    let audioContext = null;
     let pendingAction = null;
-    let currentStoreFilter = 'ALL'; 
+    let currentStoreFilter = ''; 
+    let fetchInterval = null;
 
-    function enableAudio(element) {
-        if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        element.style.display = 'none';
-    }
-
-    function playDing() {
-        if (!audioContext) return; 
-        if (audioContext.state === 'suspended') audioContext.resume();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(850, audioContext.currentTime); 
-        gainNode.gain.setValueAtTime(0.8, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4); 
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.4);
-    }
-
-    function changeStoreFilter(storeName) {
-        currentStoreFilter = storeName;
-        updateFilterButtonsUI();
-        fetchOrders();
-    }
-
-    function updateFilterButtonsUI() {
-        const btnAll = document.getElementById('btnFilter_ALL');
-        const btnMalang = document.getElementById('btnFilter_MALANG');
-        const btnKediri = document.getElementById('btnFilter_KEDIRI');
-        const subtitle = document.getElementById('dashboardStoreSubtitle');
-
-        [btnAll, btnMalang, btnKediri].forEach(b => {
-            if(b) {
-                b.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition text-ivory/70 hover:text-ivory";
-            }
-        });
-
-        if (currentStoreFilter === 'ALL') {
-            btnAll.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-ivory shadow-sm";
-            subtitle.innerText = "Semua Toko • Kasir Dashboard";
-        } else if (currentStoreFilter.includes('MALANG')) {
-            btnMalang.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-ivory shadow-sm";
-            subtitle.innerText = "Outlet Malang Galunggung • Kasir Dashboard";
-        } else if (currentStoreFilter.includes('KEDIRI')) {
-            btnKediri.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-primary text-ivory shadow-sm";
-            subtitle.innerText = "Outlet Kediri Erlangga • Kasir Dashboard";
+    // FUNGSI MASUK DASHBOARD (DARI LAYAR LOGIN)
+    function enterDashboard() {
+        const selector = document.getElementById('storeSelector');
+        if (!selector.value) {
+            alert('Silakan pilih lokasi outlet terlebih dahulu!');
+            return;
         }
+
+        currentStoreFilter = selector.value;
+        
+        // Ubah Judul Header Dinamis
+        document.getElementById('dashboardTitle').innerText = `POS ${currentStoreFilter}`;
+
+        // Transisi Layar
+        document.getElementById('loginScreen').classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('mainDashboard').classList.add('flex');
+            
+            // Mulai Tarik Data
+            fetchOrders();
+            fetchInterval = setInterval(fetchOrders, 10000); 
+        }, 300);
     }
 
+    // FUNGSI KELUAR DASHBOARD (TOMBOL BACK)
+    function exitDashboard() {
+        clearInterval(fetchInterval);
+        currentStoreFilter = '';
+        document.getElementById('storeSelector').value = '';
+        
+        // Kosongkan Container agar tidak bocor
+        document.getElementById('ordersContainer').innerHTML = '';
+
+        // Transisi Layar Kembali
+        document.getElementById('mainDashboard').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('flex');
+        
+        const loginScreen = document.getElementById('loginScreen');
+        loginScreen.classList.remove('hidden');
+        setTimeout(() => {
+            loginScreen.classList.remove('opacity-0', 'pointer-events-none');
+        }, 50);
+    }
+
+    // FUNGSI TARIK DATA PESANAN
     async function fetchOrders() {
+        if (!currentStoreFilter) return;
+
         const statusBadge = document.getElementById('statusConnection');
         statusBadge.innerText = 'Syncing...';
-        statusBadge.className = 'text-xs font-bold tracking-wider uppercase bg-taupe text-white px-3 py-1.5 rounded-full shadow-sm';
+        statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-taupe text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
 
         try {
             const response = await fetch(N8N_GET_ORDERS_URL + '?t=' + new Date().getTime(), { 
@@ -171,27 +206,23 @@
                 status: item['Status']
             }));
 
-            let filteredOrders = orders;
-            if (currentStoreFilter !== 'ALL') {
-                filteredOrders = orders.filter(o => {
-                    return (o.store || '').toUpperCase().includes(currentStoreFilter.split(' - ')[0]);
-                });
-            }
+            // Filter ketat berdasarkan Store yang dipilih saat login
+            const filteredOrders = orders.filter(o => {
+                return (o.store || '').toUpperCase() === currentStoreFilter.toUpperCase();
+            });
 
             const reversedOrders = filteredOrders.reverse();
             renderOrders(reversedOrders);
 
-            if (knownOrdersCount !== 0 && filteredOrders.length > knownOrdersCount) playDing(); 
-            knownOrdersCount = filteredOrders.length;
-
             statusBadge.innerText = 'Online';
-            statusBadge.className = 'text-xs font-bold tracking-wider uppercase bg-secondary text-white px-3 py-1.5 rounded-full shadow-sm';
+            statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-secondary text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
         } catch (error) {
             statusBadge.innerText = 'Offline';
-            statusBadge.className = 'text-xs font-bold tracking-wider uppercase bg-red-800 text-white px-3 py-1.5 rounded-full shadow-sm';
+            statusBadge.className = 'text-[10px] md:text-xs font-bold tracking-wider uppercase bg-red-800 text-white px-2.5 md:px-3 py-1 md:py-1.5 rounded-full shadow-sm';
         }
     }
 
+    // FUNGSI RENDER TAMPILAN PESANAN
     function renderOrders(orders) {
         const container = document.getElementById('ordersContainer');
         let activeOrdersCount = 0;
@@ -211,18 +242,15 @@
 
             html += `
             <div class="bg-white rounded-2xl shadow-sm border border-lightBeige flex flex-col ${cardAccent} overflow-hidden transition hover:shadow-md">
-                <div class="p-5 border-b border-lightBeige flex justify-between items-start">
+                <div class="p-4 md:p-5 border-b border-lightBeige flex justify-between items-start">
                     <div>
-                        <div class="flex items-center space-x-2">
-                            <span class="font-extrabold text-xs text-taupe tracking-wider">${order.id || '-'}</span>
-                            <span class="font-comfortaa font-bold text-[9px] bg-lightBeige/50 text-primary px-2 py-0.5 rounded-md uppercase">${order.store || 'Toko'}</span>
-                        </div>
+                        <span class="font-extrabold text-xs text-taupe tracking-wider">${order.id || '-'}</span>
                         <p class="text-xs text-coolGrey font-medium mt-1">${order.timestamp || '-'}</p>
                     </div>
                     <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusUI}">${order.status || '-'}</span>
                 </div>
 
-                <div class="p-5 flex-grow">
+                <div class="p-4 md:p-5 flex-grow">
                     <h3 class="font-bold text-xl text-primary mb-1">${order.name || '-'}</h3>
                     <p class="text-secondary text-sm font-medium mb-4 flex items-center">
                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
@@ -242,15 +270,15 @@
                     </div>
                 </div>
 
-                <div class="p-5 bg-white border-t border-lightBeige space-y-3">
-                    ${order.status === 'Pesanan Masuk' ? `<button onclick="updateStatus('${safeId}', 'Sedang Diproses', '${safeWa}', '${safeName}')" class="w-full bg-primary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-secondary transition shadow-md">Proses Pesanan</button>` : ''}
-                    ${order.status === 'Sedang Diproses' ? `<button onclick="updateStatus('${safeId}', 'Selesai', '${safeWa}', '${safeName}')" class="w-full bg-secondary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-primary transition shadow-md">Tandai Selesai & Kirim</button>` : ''}
+                <div class="p-4 md:p-5 bg-white border-t border-lightBeige space-y-3">
+                    ${order.status === 'Pesanan Masuk' ? `<button onclick="updateStatus('${safeId}', 'Sedang Diproses', '${safeWa}', '${safeName}')" class="w-full bg-primary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-secondary transition shadow-md outline-none">Proses Pesanan</button>` : ''}
+                    ${order.status === 'Sedang Diproses' ? `<button onclick="updateStatus('${safeId}', 'Selesai', '${safeWa}', '${safeName}')" class="w-full bg-secondary text-ivory py-3 rounded-xl text-sm font-bold hover:bg-primary transition shadow-md outline-none">Tandai Selesai & Kirim</button>` : ''}
                 </div>
             </div>`;
         });
 
         if(activeOrdersCount === 0) {
-            container.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20"><p class="text-secondary font-semibold">Belum ada pesanan aktif untuk ${currentStoreFilter === 'ALL' ? 'semua outlet' : currentStoreFilter}.</p></div>`;
+            container.innerHTML = `<div class="col-span-full flex flex-col items-center justify-center py-20"><p class="text-secondary font-medium">Belum ada pesanan aktif.</p></div>`;
         } else {
             container.innerHTML = html;
         }
@@ -315,27 +343,6 @@
             document.getElementById('loadingOverlay').classList.add('hidden');
             document.getElementById('loadingOverlay').classList.remove('flex');
         }
-    }
-
-    function initDashboard() {
-        document.body.addEventListener('click', () => {
-            if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }, { once: true });
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const storeQuery = urlParams.get('store');
-
-        if (storeQuery) {
-            if (storeQuery.toLowerCase().includes('malang')) {
-                currentStoreFilter = 'MALANG - GALUNGGUNG';
-            } else if (storeQuery.toLowerCase().includes('kediri')) {
-                currentStoreFilter = 'KEDIRI - ERLANGGA';
-            }
-        }
-
-        updateFilterButtonsUI();
-        fetchOrders(); 
-        setInterval(fetchOrders, 10000); 
     }
 </script>
 </body>
