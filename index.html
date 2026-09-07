@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="pt-1 w-[calc(100%+3rem)] -mx-6">
-                    <label class="font-poppins font-medium text-coolGrey text-sm block mb-3 px-6">Pilih Lokasi Store</label>
+                    <label id="storeLabel" class="font-poppins font-medium text-coolGrey text-sm block mb-3 px-6 transition-colors duration-300">Pilih Lokasi Store</label>
                     <div class="flex items-start overflow-x-auto gap-4 pb-6 pt-2 px-[35%] snap-x snap-mandatory hide-scrollbar scroll-smooth" id="storeContainer">
                         <!-- Konten di-generate oleh JS -->
                     </div>
@@ -336,7 +336,6 @@
     function clearStoreSelection() {
         selectedStore = null;
         
-        // Penanganan error jika modalStoreLabel tidak ada di HTML
         const modalLabel = document.getElementById('modalStoreLabel');
         if (modalLabel) modalLabel.innerText = '-';
         
@@ -350,10 +349,12 @@
             if (badge) badge.classList.add('hidden');
         });
 
-        // Kembalikan posisi scroll ke paling awal (idle state)
-        const storeContainer = document.getElementById('storeContainer');
-        if (storeContainer) {
-            storeContainer.scrollTo({ left: 0, behavior: 'smooth' });
+        // Kembalikan teks dan warna label seperti semula
+        const storeLabel = document.getElementById('storeLabel');
+        if (storeLabel) {
+            storeLabel.innerText = 'Pilih Lokasi Store';
+            storeLabel.classList.remove('text-primary');
+            storeLabel.classList.add('text-coolGrey');
         }
     }
 
@@ -390,10 +391,17 @@
         }
         if (activeBadge) activeBadge.classList.remove('hidden');
 
-        // Penanganan error jika modalStoreLabel tidak ada di HTML
         const modalLabel = document.getElementById('modalStoreLabel');
         if (modalLabel) {
             modalLabel.innerText = `Store: ${selectedStore.name}`;
+        }
+
+        // Ubah teks label menjadi nama store yang dipilih dan pergelap warnanya
+        const storeLabel = document.getElementById('storeLabel');
+        if (storeLabel) {
+            storeLabel.innerText = `Store ${selectedStore.name}`;
+            storeLabel.classList.remove('text-coolGrey');
+            storeLabel.classList.add('text-primary'); // Opsional: teks jadi warna gelap (primary)
         }
     }
 
